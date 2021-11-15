@@ -6,7 +6,11 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": ["nodejs" , "express", "backed"],
+  "keywords": [
+    "nodejs",
+    "express",
+    "backed"
+  ],
   "author": "",
   "license": "ISC",
   "dependencies": {
@@ -16,10 +20,13 @@
     "dotenv": "^10.0.0",
     "env": "0.0.2",
     "express": "^4.17.1",
+    "express-jwt": "^6.1.0",
     "helmet": "^4.6.0",
     "jsonwebtoken": "^8.5.1",
+    "lodash": "^4.17.21",
     "morgan": "^1.10.0",
     "mysql2": "^2.3.3",
-    "sequelize": "^6.9.0"
+    "sequelize": "^6.9.0",
+    "slugify": "^1.6.2"
   }
 }

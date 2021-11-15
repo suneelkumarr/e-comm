@@ -1,5 +1,7 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+
+//const UserRole = require('../config/Connectdb').UserRole;
 module.exports = function (sequelize, DataTypes) {
     const User = sequelize.define('User',
     {
@@ -62,15 +64,19 @@ module.exports = function (sequelize, DataTypes) {
                 if (user.roles == null) {
                     user.getRoles().then(roles => {
                         if (roles == null || roles.length === 0) {
-                            return this.sequelize.models.roles.findOrCreate({
+
+
+                         return  this.sequelize.models.roles.findOrCreate({
                                 where: {'name': 'ROLE_USER'},
                                 defaults: {description: 'For standard users'}
-                            }).spread(async (role, created) => {
+                            }).then(async (role, created) => {
+
+                                console.log(user);
                                 // user.addRole(role) // or
                                 // user.setRoles([role]) // or
                                 // or
-                                new this.sequelize.models.users_roles({
-                                    roleId: role.id,
+                                new  this.sequelize.models.users_roles({
+                                    roleId: role[0]["dataValues"]["id"],
                                     userId: user.id
                                 }).save()
                                     .then(ur => {
@@ -81,6 +87,9 @@ module.exports = function (sequelize, DataTypes) {
                             }).catch(err => {
                                 throw err;
                             });
+
+
+
                         }
                     });
                 }

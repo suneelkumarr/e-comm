@@ -24,7 +24,6 @@ module.exports = (sequelize, DataTypes) => {
         // UserRole.belongsTo(models.Role);
          //UserRole.belongsTo(models.User);
     };
-
-    UserRole.sync()
+    
     return UserRole;
 };

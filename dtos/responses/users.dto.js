@@ -8,7 +8,7 @@ function registerDto(user){
 }
 
 
-function loginSuccess(user){
+function loginStatus(user){
     const token = user.generateJwt();
     return {
         sucess: true,
@@ -18,7 +18,7 @@ function loginSuccess(user){
             username:user.username,
             firstname:user.firstname,
             lastName:user.lastName,
-            roles:RolesDto.toNames(user.roles || []),
+            roles:RolesDto.toNameList(user.roles || []),
             token
         }
     }
@@ -34,5 +34,5 @@ function buildOnlyForIdAndUsername(user) {
 }
 
 module.exports = {
-    registerDto, loginSuccess, buildOnlyForIdAndUsername
+    registerDto, loginStatus, buildOnlyForIdAndUsername
 };

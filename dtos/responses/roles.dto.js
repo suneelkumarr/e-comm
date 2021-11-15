@@ -3,6 +3,7 @@ function onlyName(role) {
 }
 
 function toNameList(roles) {
+    console.log(roles);
     if (roles == null) return [];
     return roles.map(r => r.name)
 }

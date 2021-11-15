@@ -1,3 +1,4 @@
+const { Op} = require('sequelize')
 module.exports = (sequelize, DataTypes) => {
     const TagImage = sequelize.define('tag_images', {
         id: {
@@ -46,7 +47,7 @@ module.exports = (sequelize, DataTypes) => {
         defaultScope: {
             where: {
                 tagId: {
-                    [sequelize.Op.ne]: null
+                    [Op.ne]: null
                 }
             }
         }

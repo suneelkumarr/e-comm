@@ -1,29 +1,43 @@
+require('dotenv').config()
 const jwt = require("jsonwebtoken");
-const expressjwt = require("express-jwt");
 const AppResponseDto = require("../dtos/responses/app_response.dto");
 
-const checkToken = expressjwt({
-  secret: process.env.SECRET_KEY || "JWT_SUPER_SECRET",
-  userProperty: "decodedJwt",
-});
+// const checkToken = expressjwt({
+//   secret: process.env.SECRET_KEY || "JWT_SUPER_SECRET",
+//   userProperty: "decodedJwt",
+// });
 
 const User = require("../config/Connectdb").User;
-const Role = require("../config/sequelize.config").Role;
+const Role = require("../config/Connectdb").Role;
 
 const readToken = function (req, res, next) {
   if (req.user !== null) return next();
 
-  if (
-    (req.hasOwnProperty("headers") &&
-      req.headers.hasOwnProperty("authorization") &&
-      req.headers.authorization.split(" ")[0] === "Bearer") ||
-    (req.headers.authorization &&
-      req.headers.authorization.split(" ")[0] === "Token")
-  ) {
-    checkToken(req, res, next);
-  } else {
-    return next();
+//   if (
+//     (req.hasOwnProperty("headers") &&
+//       req.headers.hasOwnProperty("authorization") &&
+//       req.headers.authorization.split(" ")[0] === "Bearer") ||
+//     (req.headers.authorization &&
+//       req.headers.authorization.split(" ")[0] === "Token")
+//   ) {
+//     checkToken(req, res, next);
+//   } else {
+//     return next();
+//   }
+
+if (!req.headers['authorization']) {
+    return res.status(400).json({ success: false, message: 'No access token provided' });
   }
+  const accessToken = req.headers.authorization.split(' ')[1];
+  try {
+    const decoded = jwt.verify(accessToken, process.env.SECRET_KEY);
+    req.userId = decoded.userId;
+    return next();
+  } catch (error) {
+    return res.status(401).json({ success: false, message: error.message });
+  }
+
+
 };
 
 exports.isAdmin = (req, res, next) => {

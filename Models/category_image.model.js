@@ -1,3 +1,4 @@
+const { Op} = require('sequelize')
 module.exports = (sequelize, DataTypes) => {
     const CategoryImange = sequelize.define('category_images', {
         id: {
@@ -46,7 +47,7 @@ module.exports = (sequelize, DataTypes) => {
         defaultScope: {
             where: {
                 categoryId: {
-                    [sequelize.Op.not]: null
+                    [Op.not]: null
                 }
             }
         }

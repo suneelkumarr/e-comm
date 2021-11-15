@@ -19,6 +19,21 @@ exports.bulidSucessWithMessage = (messages) => {
     return responce
 }
 
+exports.buildWithErrorMessages = (messages) => {
+    let responce = {
+        sucess : false
+    };
+
+    if(typeof messages === 'string')
+    responce.full_messages = [messages];
+else if(messages instanceof Array)
+    responce.full_messages = messages
+else if(messages instanceof Object)
+    responce.full_messages = Object.values(messages)
+
+    return responce
+}
+
 exports.bulidWithMessage = (messages) => {
     let response = {
         sucess : false

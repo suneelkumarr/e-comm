@@ -58,6 +58,34 @@ module.exports = function (sequelize, DataTypes) {
             },
             afterCreate:function(user, options){
 
+                            
+                if (user.roles == null) {
+                    user.getRoles().then(roles => {
+                        if (roles == null || roles.length === 0) {
+                            return this.sequelize.models.roles.findOrCreate({
+                                where: {'name': 'ROLE_USER'},
+                                defaults: {description: 'For standard users'}
+                            }).spread(async (role, created) => {
+                                // user.addRole(role) // or
+                                // user.setRoles([role]) // or
+                                // or
+                                new this.sequelize.models.users_roles({
+                                    roleId: role.id,
+                                    userId: user.id
+                                }).save()
+                                    .then(ur => {
+                                        console.log('attached to ROLE_USER');
+                                    }).catch(err => {
+                                    throw err
+                                });
+                            }).catch(err => {
+                                throw err;
+                            });
+                        }
+                    });
+                }
+                
+
             }
         }
 
@@ -112,7 +140,5 @@ module.exports = function (sequelize, DataTypes) {
             {expiresIn: process.env.EXPIRE_TIME || 360000}
         );
     };
-
     return User;
-
 }

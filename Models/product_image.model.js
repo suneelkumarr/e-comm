@@ -1,3 +1,5 @@
+const {Op} = require('sequelize')
+
 module.exports = (sequelize, DataTypes) => {
     const ProductImage = sequelize.define('product_images', {
         id: {
@@ -46,7 +48,7 @@ module.exports = (sequelize, DataTypes) => {
         defaultScope: {
             where: {
                 productId: {
-                    [sequelize.Op.ne]: null
+                    [Op.ne]: null
                 }
             }
         }

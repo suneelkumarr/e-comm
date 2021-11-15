@@ -4,6 +4,6 @@ exports.sanitizeInput = (dirty, options) => {
     const htmlSanitizeOptions = {
         allowedTags: [], allowedAttributes: []
     };
-
-    return sanitizeHtml(dirty, options || htmlSanitizeOptions);
+    
+  return sanitizeHtml(dirty, options || htmlSanitizeOptions);
 };
